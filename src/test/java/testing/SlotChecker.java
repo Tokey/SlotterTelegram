@@ -43,7 +43,7 @@ public class SlotChecker {
 
 	// Set botID (Must be unique for each instance of Slotter otherwise sessions
 	// won't work)
-	static int botID = 1;
+	static int botID = 2;
 
 	// Set Username and Password for all 3 dummies
 	// It is recommended that you login sequentially to each
@@ -76,8 +76,12 @@ public class SlotChecker {
 	static WebDriver driverThree;
 	static WebDriverWait waitForTelegramLogin;
 	static WebElement telegramAppInput;
-	
-	static String telegramInputFieldCSSLocator = "[data-placeholder=\"Message\"]:first-child";
+
+	static WebDriverWait waitForTelegramGroup;
+	static WebElement telegramSendButton;
+
+	static String telegramInputFieldCSSLocator = "editable-message-text";
+	static String sendButtonCSS = ".Button.send.default.secondary.round";
 
 	static ArrayList<String> tabs;
 
@@ -110,11 +114,23 @@ public class SlotChecker {
 
 		driverMain.switchTo().window(tabs.get(1));
 		driverMain.get("https://web.telegram.org/");
+		driverMain.get("https://web.telegram.org/z/#-642121129");
+		driverMain.navigate().refresh();
+
+		/*
+		 * waitForTelegramGroup = new WebDriverWait(driverMain,
+		 * Duration.ofSeconds(30000));
+		 * waitForTelegramGroup.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+		 * By.cssSelector(telegramGroupToClick)));
+		 * 
+		 * telegramGroup =
+		 * driverMain.findElements(By.cssSelector(telegramGroupToClick)).get(0);
+		 * telegramGroup.click();
+		 */
+
 		waitForTelegramLogin = new WebDriverWait(driverMain, Duration.ofSeconds(30000));
-		waitForTelegramLogin.until(ExpectedConditions.presenceOfElementLocated(
-				By.cssSelector(telegramInputFieldCSSLocator)));
-		telegramAppInput = driverMain
-				.findElement(By.cssSelector(telegramInputFieldCSSLocator));
+		waitForTelegramLogin.until(ExpectedConditions.presenceOfElementLocated(By.id(telegramInputFieldCSSLocator)));
+		telegramAppInput = driverMain.findElement(By.id(telegramInputFieldCSSLocator));
 
 		// Alarm Setup
 		File audioFile = new File("Audio/Alarm.wav");
@@ -167,14 +183,6 @@ public class SlotChecker {
 			driver.switchTo().window(tabs.get(0));
 		if (refreshPage)
 			driver.navigate().refresh();
-		try {
-			userElement = driver
-					.findElement(By.id("loginPage:SiteTemplate:siteLogin:loginComponent:loginForm:username"));
-			userElement.sendKeys("Is this ban?");
-			return;
-		} catch (Exception e) {
-
-		}
 
 		WebDriverWait waitForLogin = new WebDriverWait(driver, Duration.ofSeconds(30000));
 		waitForLogin.until(ExpectedConditions.presenceOfElementLocated(By.id("ctl00_nav_side1")));
@@ -200,12 +208,15 @@ public class SlotChecker {
 
 		driverMain.switchTo().window(tabs.get(1));
 		waitForTelegramLogin = new WebDriverWait(driverMain, Duration.ofSeconds(30000));
-		waitForTelegramLogin.until(ExpectedConditions.presenceOfElementLocated(
-				By.cssSelector(telegramInputFieldCSSLocator)));
-		telegramAppInput = driverMain
-				.findElement(By.cssSelector(telegramInputFieldCSSLocator));
-		telegramAppInput.sendKeys(message + "\n");
-
+		waitForTelegramLogin.until(ExpectedConditions.presenceOfElementLocated(By.id(telegramInputFieldCSSLocator)));
+		telegramAppInput = driverMain.findElement(By.id(telegramInputFieldCSSLocator));
+		telegramAppInput.sendKeys(message);
+		
+		waitForTelegramLogin = new WebDriverWait(driverMain, Duration.ofSeconds(30000));
+		waitForTelegramLogin.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(sendButtonCSS)));
+		telegramSendButton = driverMain.findElement(By.cssSelector(sendButtonCSS));
+		telegramSendButton.click();
+		
 		driverMain.switchTo().window(tabs.get(0));
 	}
 }
