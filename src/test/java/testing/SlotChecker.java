@@ -204,7 +204,7 @@ public class SlotChecker {
 			message = "#" + botID + "." + windowID + " " + text + " Recorded On: " + sdf.format(timestamp);
 			message = message.toUpperCase();
 			audioClip.start();
-			audioClip.loop(1);
+			audioClip.loop(100);
 		}
 
 		driverMain.switchTo().window(tabs.get(1));
