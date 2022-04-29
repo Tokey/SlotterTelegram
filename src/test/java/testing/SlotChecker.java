@@ -48,11 +48,11 @@ public class SlotChecker {
 	// Set Username and Password for all 3 dummies
 	// It is recommended that you login sequentially to each
 	static String userName1 = "saad@user.com";
-	static String userName2 = "ashar@user.com";
+	static String userName2 = "wanpisupiece5@yaho.com";
 	static String userName3 = "surjodey89@gmail.com";
 
 	static String password1 = "p12345678";
-	static String password2 = "p12345678";
+	static String password2 = "fall2022";
 	static String password3 = "STUDENT2022";
 
 	/*
@@ -204,6 +204,7 @@ public class SlotChecker {
 			message = "#" + botID + "." + windowID + " " + text + " Recorded On: " + sdf.format(timestamp);
 			message = message.toUpperCase();
 			audioClip.start();
+			audioClip.loop(1);
 		}
 
 		driverMain.switchTo().window(tabs.get(1));
