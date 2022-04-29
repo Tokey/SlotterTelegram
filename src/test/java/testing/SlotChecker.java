@@ -28,6 +28,8 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+//SLOTTER TELEGRAM
+
 /*
  * During the first execution, the bot will load cgi website, 
  * put username, password and open a new tab for you.
